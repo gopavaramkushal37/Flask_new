@@ -1,0 +1,38 @@
+name: Flask CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Step 1: Get the code from GitHub
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Install Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Step 3: Install Flask
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # Step 4: Check Python syntax
+      - name: Check Python syntax
+        run: |
+          python -m py_compile app.py
+
+      # Step 5: Check that Flask application can start
+      - name: Check Flask application
+        run: |
+          python -c "from app import app; print('Flask application loaded successfully')"
