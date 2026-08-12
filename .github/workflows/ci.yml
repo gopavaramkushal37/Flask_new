@@ -2,12 +2,13 @@ name: Flask CI
 
 on:
   push:
+    branches: 
+        - main  
   pull_request:
 
 jobs:
 
-  build:
-
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,4 +35,14 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest
+          pytest -v 
+
+      - name: CI Success 
+        if: success()
+        run: |
+          echo "CI Completed Successfully"
+
+      - name: CI Failed 
+        if: failure()
+        run: |
+          echo "CI Completed Failed" 
